@@ -33,8 +33,6 @@ def plot_deap_data(x,y):
     print(ppg_data[x,y,:].shape)
     return ppg_data[x,y,:]
 
-
+# using heartpy plotting utils for visulazation
 wd, m = hp.process(plot_deap_data(3,4), PPG_SAMPLING_RATE)
 plot_object = hp.plotter(wd, m, show=True, title='some awesome title')
-plt.close()
-print(len(wd))

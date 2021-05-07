@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+#import seaborn as sns
 import numpy as np
 
 from sklearn.utils import shuffle
@@ -24,16 +24,20 @@ from keras.layers import Dense, Dropout, LSTM
 from utils import validate_predictions
 
 
+# Adding feature extaraction
+from physiological.feature_extraction import get_ppg_features
+
 def cnn_lstm_classification(physiological_data, labels, classes):
+    print('from cnn_lstm')
     print(physiological_data.shape)
     print(labels.shape)
-    # train_x, test_x, train_y, test_y = \
-    #    normal_train_test_split(physiological_data, labels)
+    train_x, test_x, train_y, test_y = \
+       normal_train_test_split(physiological_data, labels)
     # train_x, test_x, train_y, test_y = \
     #    leave_one_subject_out_split(physiological_data, labels, subject_out=0)
 
-    train_x, test_x, train_y, test_y = \
-        leave_one_trial_out_split(physiological_data, labels, trial_out=0)
+    #train_x, test_x, train_y, test_y = \
+    #    leave_one_trial_out_split(physiological_data, labels, trial_out=0)
     preds_physiological = cnn_lstm(train_x, test_x, train_y, test_y)
     print(validate_predictions(preds_physiological, test_y, classes))
 
@@ -96,12 +100,30 @@ def cnn_lstm(train_x, test_x, train_y, test_y):
                       verbose=1,
                       mode='auto')
     model.summary()
-    model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose,
+    history = model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose,
               class_weight=class_weights,
               validation_data=(np.array(test_x),
                                np.array(test_y)),
               callbacks=[checkpoint, early_stopping])
     # evaluate model
+    print(history.history.keys())
+    # summarize history for accuracy
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+
     _, accuracy = model.evaluate(test_x, test_y, batch_size=batch_size, verbose=0)
     physiological_model = load_model("models/physiological_cnn_model.h5")
     preds_physiological = physiological_model.predict_proba(np.array(test_x))
