@@ -31,10 +31,39 @@ def cnn_lstm_classification(physiological_data, labels, classes):
     print('from cnn_lstm')
     print(physiological_data.shape)
     print(labels.shape)
-    train_x, test_x, train_y, test_y = \
-       normal_train_test_split(physiological_data, labels)
+
     # train_x, test_x, train_y, test_y = \
     #    leave_one_subject_out_split(physiological_data, labels, subject_out=0)
+
+    
+    participants, trials, points = physiological_data.shape
+
+    all_participants_labels = []
+    all_physiological_features = []
+    
+    for p in range(participants):
+        all_trials_physiological = []
+        all_trial_labels = []
+        for t in range(trials):
+            physiological_parts = []
+            for i in range(trials):
+                ppg_data = physiological_data[p, t, i]
+                ppg_labels = labels[p, t]
+                physiological_parts.append(get_ppg_features(ppg_data))
+
+            all_trial_labels.append(ppg_labels)
+            all_trials_physiological.append(physiological_parts)
+
+        all_participants_labels.append(all_trial_labels)
+        all_physiological_features.append(all_trials_physiological)
+
+    physiological_data = np.array(all_physiological_features)
+    all_participants_labels = np.array(all_participants_labels)
+
+    train_x, test_x, train_y, test_y = \
+       normal_train_test_split(physiological_data, all_participants_labels)    
+
+
 
     #train_x, test_x, train_y, test_y = \
     #    leave_one_trial_out_split(physiological_data, labels, trial_out=0)
