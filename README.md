@@ -14,9 +14,20 @@ Ensure you have the following installed:
 - Python 3.x
 - Required Python libraries: `pandas`, `matplotlib`, `seaborn`, `numpy`, `sklearn`, `tensorflow`, `keras`
 
+## Presentation Video
+**Conference:** IUI '22 - 27th Annual Conference on Intelligent User Interfaces
+
+[![Watch the video](https://img.youtube.com/vi/AVR3gMXZwuU/0.jpg)](https://www.youtube.com/watch?v=AVR3gMXZwuU)
+
+
+
 ### Installation
 1. Clone the repository to your local machine using `git clone`.
 2. Install the necessary Python packages using `pip install -r requirements.txt` (ensure you have `pip` installed).
+
+
+## Repository Structure
+Below is the structure of the repository which includes scripts and files needed to replicate the studies and analyses mentioned in our published work:
    
 ```
 ├── cnn_lstm_classification.py # Script for CNN-LSTM classification
@@ -50,4 +61,17 @@ This project is based on research conducted by our team, and findings have been 
 - Saffaryazdi, N., Goonesekera, Y., Saffaryazdi, N., Hailemariam, N. D., Temesgen, E. G., Nanayakkara, S., Broadbent, E., & Billinghurst, M. (2022). Emotion recognition in conversations using brain and physiological signals. In Proceedings of the 27th International Conference on Intelligent User Interfaces (pp. 229-242).
 
 We recommend reading the paper to understand the depth of the research and the methodologies applied.
+
+## Citation
+If you use this code or the associated dataset for your research, please cite our paper:
+
+```bibtex
+@inproceedings{saffaryazdi2022emotion,
+  title={Emotion recognition in conversations using brain and physiological signals},
+  author={Saffaryazdi, Nastaran and Goonesekera, Yenushka and Saffaryazdi, Nafiseh and Hailemariam, Nebiyou Daniel and Temesgen, Ebasa Girma and Nanayakkara, Suranga and Broadbent, Elizabeth and Billinghurst, Mark},
+  booktitle={27th International Conference on Intelligent User Interfaces},
+  pages={229--242},
+  year={2022}
+}
+
 
